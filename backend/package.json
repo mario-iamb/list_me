@@ -13,7 +13,7 @@
     "boilerplate",
     "server"
   ],
-  "author": "Leonardo Maldonado <leonardomso11@gmail.com>",
+  "author": "mario-iamb",
   "license": "MIT",
   "devDependencies": {
     "@babel/cli": "^7.1.2",
