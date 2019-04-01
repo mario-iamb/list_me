@@ -10,12 +10,41 @@
         </li>
       </ul>
     </template>
+
+    <div class="add_new">
+      <h2>Add new user here:</h2>
+      
+      <!-- <form class="add_new_form" v-on:submit="addAction"> -->
+        <div class="field">
+            <input type="text" v-model="id" placeholder="ID">
+        </div>
+
+        <div class="field">
+            <input type="text" v-model="name" placeholder="Name">
+        </div>
+
+        <div class="field">
+            <input type="text" v-model="email" placeholder="Email">
+        </div>
+
+        <div class="field">
+            <input type="number" v-model.number="age" placeholder="Age">
+        </div>
+
+        <div class="field">
+            <!-- <input type="submit" value="ADD"> -->
+            <button @click="addAction()">Add</button>
+        </div>
+      <!-- </form> -->
+    </div>
+
   </div>
 
 </template>
 
 <script>
 import { ALL_USERS_QUERY } from '../graphql/allUsers'
+import { CREATE_USER_QUERY } from '../graphql/addUser'
 
 export default {
   name: 'HelloWorld',
@@ -23,6 +52,10 @@ export default {
     return {
       users: [],
       loading: 0,
+      id:'',
+      name:'',
+      email:'',
+      age:'',
     }
   },
   apollo: {
@@ -30,11 +63,53 @@ export default {
       query: ALL_USERS_QUERY
     },
   },
+  methods: {
+    addAction() {
+      const id = this.id
+      const name = this.name
+      const email = this.email
+      const age = this.age
+
+      this.$apollo.mutate({
+        mutation: CREATE_USER_QUERY,
+        variables: {
+          id,
+          name,
+          email,
+          age,
+        },
+        // update: (store, {data: {addAction}}) => {
+        //   const data = store.readQuery({query: ALL_USERS_QUERY})
+        //   data.allUsers.push(addAction)
+        //   store.writeQuery({query: ALL_USERS_QUERY, data})
+        // }
+      })
+    }
+  }
 }
 
 </script>
 
 <style scoped>
+.add_new {
+  width: 300px;
+  margin: 50px auto;
+}
+
+.add_new_form {
+  width: 200px;
+  margin: 0 auto;
+}
+
+.field {
+  width: 100%;
+  margin-bottom: 10px;
+}
+
+input {
+  width: 100%;
+}
+
 h3 {
   margin: 40px 0 0;
 }
