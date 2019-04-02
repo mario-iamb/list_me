@@ -33,7 +33,7 @@
 
         <div class="field">
             <!-- <input type="submit" value="ADD"> -->
-            <button @click="addAction()">Add</button>
+            <button @click="createUser()">Add</button>
         </div>
       <!-- </form> -->
     </div>
@@ -64,7 +64,7 @@ export default {
     },
   },
   methods: {
-    addAction() {
+    createUser() {
       const id = this.id
       const name = this.name
       const email = this.email
@@ -81,25 +81,33 @@ export default {
         // update: (store, { data: {createUser}}) => {
         //   this.updateListAfterChange(store, createUser)
         // }
-        // update: (store, {data: {createUser}}) => {
-        //   const data = store.readQuery({query: ALL_USERS_QUERY})
-        //   data.users.push(addAction)
-        //   store.writeQuery({query: ALL_USERS_QUERY, data})
-        // }
+        update: (store, {data: {createUser}}) => {
+          const data = store.readQuery({query: ALL_USERS_QUERY})
+          data.users.push(createUser)
+          store.writeQuery({query: ALL_USERS_QUERY, data})
+        },
+        optimisticResponse: {
+          __typename: 'Mutation',
+          createUser: {
+            __typename: 'Task',
+            id:-1,
+            name,
+            email,
+            age
+          }
+        }
       })
     },
     // updateListAfterChange (store, createUser ) {
     //   const data = store.readQuery({ query: ALL_USERS_QUERY })
+    //   data.allTasks.push(createTask)
     //   // const myUserList = data.users
     //   // myUserList = createUser
-    //   // data.users = createUser
+    //   // createUser = data.users 
     //   store.writeQuery({ query: ALL_USERS_QUERY, data })
     // }
   }
 }
-
-// https://www.howtographql.com/vue-apollo/6-more-mutations-and-updating-the-store/
-// https://github.com/howtographql/vue-apollo/blob/master/src/components/LinkItem.vue
 
 </script>
 
