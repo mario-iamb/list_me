@@ -78,15 +78,28 @@ export default {
           email,
           age,
         },
-        // update: (store, {data: {addAction}}) => {
+        // update: (store, { data: {createUser}}) => {
+        //   this.updateListAfterChange(store, createUser)
+        // }
+        // update: (store, {data: {createUser}}) => {
         //   const data = store.readQuery({query: ALL_USERS_QUERY})
-        //   data.allUsers.push(addAction)
+        //   data.users.push(addAction)
         //   store.writeQuery({query: ALL_USERS_QUERY, data})
         // }
       })
-    }
+    },
+    // updateListAfterChange (store, createUser ) {
+    //   const data = store.readQuery({ query: ALL_USERS_QUERY })
+    //   // const myUserList = data.users
+    //   // myUserList = createUser
+    //   // data.users = createUser
+    //   store.writeQuery({ query: ALL_USERS_QUERY, data })
+    // }
   }
 }
+
+// https://www.howtographql.com/vue-apollo/6-more-mutations-and-updating-the-store/
+// https://github.com/howtographql/vue-apollo/blob/master/src/components/LinkItem.vue
 
 </script>
 
