@@ -5,8 +5,8 @@
     <template v-if="loading">Loading</template>
     <template v-else>
       <ul>
-        <li class="users__item" v-for="user in users" :key="user.name">
-          {{ user.name }} , {{ user.email  }} , {{ user.age }} - 
+        <li class="users__item" v-for="user in users" :key="user.id">
+          {{ user.id }} , {{ user.name }} , {{ user.email  }} , {{ user.age }} - 
           <span><button @click="deleteUser()">Delete</button></span>
         </li>
       </ul>
@@ -71,23 +71,41 @@ export default {
           email: this.email,
           age: this.age,
         },
-        update: (store, {data: {deleteUser}}) => {
-          const data = store.readQuery({query: ALL_USERS_QUERY})
-          data.users = data.users.filter(user => user.id !== deleteUser.id)
-          // const index = this.users.indexOf(user);
-          // data.users = data.users.splice(index,1);
-          store.writeQuery({query: ALL_USERS_QUERY, data})
-        },
-        optimisticResponse: {
-          __typename: 'Mutation',
-          deleteUser: {
-            __typename: 'Task',
-            id:-1,
-            name,
-            email,
-            age
+        // update: (store, {data: {deleteUser}}) => {
+        //   const data = store.readQuery({query: ALL_USERS_QUERY})
+        //   const index = data.users.findIndex(i => i.id === this.id)
+        //   if (index !== -1) {
+        //     data.users.splice(index, 1);
+        //   }
+        //   store.writeQuery({query: ALL_USERS_QUERY, data})
+        // },
+
+        update: store => {
+          let data = store.readQuery({
+            query: ALL_USERS_QUERY
+          })
+          const index = data.users.findIndex(i => i.id === this.id)
+
+          if (index !== -1) {
+            data.users.splice(index, 1);
           }
-        }
+          store.writeQuery({query: ALL_USERS_QUERY, data})
+
+        },
+        
+        // optimisticResponse: {
+        //   __typename: 'Mutation',
+        //   deleteUser: {
+        //     __typename: 'Task',
+        //     id:-1,
+        //     name,
+        //     email,
+        //     age
+        //   }
+        // }
+      }).then((data) => {
+        // eslint-disable-next-line no-console
+        console.log(data)
       })
     },
     createUser() {
@@ -119,6 +137,9 @@ export default {
             age,
           }
         }
+      }).then((data) => {
+        // eslint-disable-next-line no-console
+        console.log(data)
       })
     }
   }
@@ -126,6 +147,9 @@ export default {
 
 // https://github.com/Akryum/vue-apollo-todos/blob/master/src/components/TodoListItem.vue
 // https://gist.github.com/dabit3/4cf155b5b55e933f7e1db81fc41ac4a1
+
+// https://codesandbox.io/s/42lqq8m9q9
+// https://www.codementor.io/lautiamkok/javascript-tips-searching-the-index-of-an-element-and-delete-or-replace-it-cfpy6uasy
 
 </script>
 

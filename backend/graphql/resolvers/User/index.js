@@ -14,6 +14,7 @@ export default {
 
       return users.map(u => ({
         _id: u._id.toString(),
+        id: u.id.toString(),
         name: u.name,
         email: u.email,
         age: u.age,
