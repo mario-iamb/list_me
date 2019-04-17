@@ -7,7 +7,7 @@
       <ul>
         <li class="users__item" v-for="user in users" :key="user.id">
           {{ user.id }} , {{ user.name }} , {{ user.email  }} , {{ user.age }} - 
-          <span><button @click="deleteUser()">Delete</button></span>
+          <span><button @click="deleteUser(user)">Delete</button></span>
         </li>
       </ul>
     </template>
@@ -62,14 +62,19 @@ export default {
     },
   },
   methods: {
-    deleteUser () {
+    deleteUser (user) {
+      const id = user.id
+      const name = user.name
+      const email = user.email
+      const age = user.age
+
       this.$apollo.mutate({
         mutation: DELETE_USER_QUERY,
         variables: {
-          id: this.id,
-          name: this.name,
-          email: this.email,
-          age: this.age,
+          id,
+          name,
+          email,
+          age,
         },
         // update: (store, {data: {deleteUser}}) => {
         //   const data = store.readQuery({query: ALL_USERS_QUERY})
@@ -92,7 +97,6 @@ export default {
           store.writeQuery({query: ALL_USERS_QUERY, data})
 
         },
-        
         // optimisticResponse: {
         //   __typename: 'Mutation',
         //   deleteUser: {
@@ -100,7 +104,7 @@ export default {
         //     id:-1,
         //     name,
         //     email,
-        //     age
+        //     age,
         //   }
         // }
       }).then((data) => {
@@ -140,6 +144,10 @@ export default {
       }).then((data) => {
         // eslint-disable-next-line no-console
         console.log(data)
+        // this.id = '';
+        // this.name = '';
+        // this.email = '';
+        // this.age = '';
       })
     }
   }
