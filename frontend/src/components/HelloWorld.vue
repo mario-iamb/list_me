@@ -76,37 +76,38 @@ export default {
           email,
           age,
         },
-        // update: (store, {data: {deleteUser}}) => {
-        //   const data = store.readQuery({query: ALL_USERS_QUERY})
+        update: (store, {data: {deleteUser}}) => {
+          const data = store.readQuery({query: ALL_USERS_QUERY})
+          data.users = data.users.filter(i => i.id !== deleteUser.id)
+          // const index = data.users.findIndex(i => i.id === this.id)
+          // if (index !== -1) {
+          //   data.users.splice(index, 1);
+          // }
+
+
+
+          store.writeQuery({query: ALL_USERS_QUERY, data})
+        },
+
+        // update: cache => {
+        //   let data = cache.readQuery({
+        //     query: ALL_USERS_QUERY
+        //   })
         //   const index = data.users.findIndex(i => i.id === this.id)
+
         //   if (index !== -1) {
         //     data.users.splice(index, 1);
         //   }
-        //   store.writeQuery({query: ALL_USERS_QUERY, data})
+        //   cache.writeQuery({query: ALL_USERS_QUERY, data})
+
         // },
-
-        update: store => {
-          let data = store.readQuery({
-            query: ALL_USERS_QUERY
-          })
-          const index = data.users.findIndex(i => i.id === this.id)
-
-          if (index !== -1) {
-            data.users.splice(index, 1);
+        optimisticResponse: {
+          __typename: 'Mutation',
+          deleteUser: {
+            __typename: 'Task',
+            ...user
           }
-          store.writeQuery({query: ALL_USERS_QUERY, data})
-
-        },
-        // optimisticResponse: {
-        //   __typename: 'Mutation',
-        //   deleteUser: {
-        //     __typename: 'Task',
-        //     id:-1,
-        //     name,
-        //     email,
-        //     age,
-        //   }
-        // }
+        }
       }).then((data) => {
         // eslint-disable-next-line no-console
         console.log(data)
@@ -126,10 +127,10 @@ export default {
           email,
           age,
         },
-        update: (store, {data: {createUser}}) => {
-          const data = store.readQuery({query: ALL_USERS_QUERY})
+        update: (cache, {data: {createUser}}) => {
+          const data = cache.readQuery({query: ALL_USERS_QUERY})
           data.users.push(createUser)
-          store.writeQuery({query: ALL_USERS_QUERY, data})
+          cache.writeQuery({query: ALL_USERS_QUERY, data})
         },
         optimisticResponse: {
           __typename: 'Mutation',
@@ -152,6 +153,8 @@ export default {
     }
   }
 }
+// https://www.graph.cool/
+// https://medium.com/yld-engineering-blog/using-vue-with-apollo-65e2b1297592
 
 // https://github.com/Akryum/vue-apollo-todos/blob/master/src/components/TodoListItem.vue
 // https://gist.github.com/dabit3/4cf155b5b55e933f7e1db81fc41ac4a1
