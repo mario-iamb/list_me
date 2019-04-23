@@ -84,8 +84,6 @@ export default {
           //   data.users.splice(index, 1);
           // }
 
-
-
           store.writeQuery({query: ALL_USERS_QUERY, data})
         },
 
@@ -155,6 +153,7 @@ export default {
 }
 // https://www.graph.cool/
 // https://medium.com/yld-engineering-blog/using-vue-with-apollo-65e2b1297592
+// https://hackernoon.com/full-stack-vue-with-graphql-aws-appsync-adc5af474dc9
 
 // https://github.com/Akryum/vue-apollo-todos/blob/master/src/components/TodoListItem.vue
 // https://gist.github.com/dabit3/4cf155b5b55e933f7e1db81fc41ac4a1
