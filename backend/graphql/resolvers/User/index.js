@@ -33,7 +33,7 @@ export default {
         });
       });
     },
-    updateUser: async (parent, { _id, user }, context, info) => {
+    updateUser: async (root, { _id, user }, context, info) => {
       return new Promise((resolve, reject) => {
         User.findByIdAndUpdate(_id, { $set: { ...user } }, { new: true }).exec(
           (err, res) => {

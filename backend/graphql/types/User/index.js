@@ -1,5 +1,6 @@
 export default `
   type User {
+    _id: ID!
     id: String!
     name: String!
     email: String!
@@ -27,6 +28,7 @@ export default `
   }
   
   input UpdateUserInput {
+    id: String
     name: String
     email: String
     age: Int

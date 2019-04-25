@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h2>Hello from MongoDB</h2>
+    <!-- <h2>Hello from MongoDB</h2> -->
     
     <template v-if="loading">Loading</template>
     <template v-else>
@@ -42,6 +42,7 @@
 <script>
 import { ALL_USERS_QUERY } from '../graphql/allUsers'
 import { CREATE_USER_QUERY } from '../graphql/addUser'
+// import { UPDATE_USER_QUERY } from '../graphql/updateUser'
 import { DELETE_USER_QUERY } from '../graphql/deleteUser'
 
 export default {
@@ -62,55 +63,6 @@ export default {
     },
   },
   methods: {
-    deleteUser (user) {
-      const id = user.id
-      const name = user.name
-      const email = user.email
-      const age = user.age
-
-      this.$apollo.mutate({
-        mutation: DELETE_USER_QUERY,
-        variables: {
-          id,
-          name,
-          email,
-          age,
-        },
-        update: (store, {data: {deleteUser}}) => {
-          const data = store.readQuery({query: ALL_USERS_QUERY})
-          data.users = data.users.filter(i => i.id !== deleteUser.id)
-          // const index = data.users.findIndex(i => i.id === this.id)
-          // if (index !== -1) {
-          //   data.users.splice(index, 1);
-          // }
-
-          store.writeQuery({query: ALL_USERS_QUERY, data})
-        },
-
-        // update: cache => {
-        //   let data = cache.readQuery({
-        //     query: ALL_USERS_QUERY
-        //   })
-        //   const index = data.users.findIndex(i => i.id === this.id)
-
-        //   if (index !== -1) {
-        //     data.users.splice(index, 1);
-        //   }
-        //   cache.writeQuery({query: ALL_USERS_QUERY, data})
-
-        // },
-        optimisticResponse: {
-          __typename: 'Mutation',
-          deleteUser: {
-            __typename: 'Task',
-            ...user
-          }
-        }
-      }).then((data) => {
-        // eslint-disable-next-line no-console
-        console.log(data)
-      })
-    },
     createUser() {
       const id = this.id
       const name = this.name
@@ -148,9 +100,43 @@ export default {
         // this.email = '';
         // this.age = '';
       })
-    }
+    },
+    deleteUser (user) {
+      const id = user.id
+      const name = user.name
+      const email = user.email
+      const age = user.age
+
+      this.$apollo.mutate({
+        mutation: DELETE_USER_QUERY,
+        variables: {
+          id,
+          name,
+          email,
+          age,
+        },
+        update: (store, {data: {deleteUser}}) => {
+          const data = store.readQuery({query: ALL_USERS_QUERY})
+          data.users = data.users.filter(i => i.id !== deleteUser.id)
+          store.writeQuery({query: ALL_USERS_QUERY, data})
+        },
+        optimisticResponse: {
+          __typename: 'Mutation',
+          deleteUser: {
+            __typename: 'Task',
+            ...user
+          }
+        }
+      }).then((data) => {
+        // eslint-disable-next-line no-console
+        console.log(data)
+      })
+    },
   }
 }
+// pass graphql variables
+// https://medium.com/graphql-mastery/graphql-quick-tip-how-to-pass-variables-into-a-mutation-in-graphiql-23ecff4add57
+
 // https://www.graph.cool/
 // https://medium.com/yld-engineering-blog/using-vue-with-apollo-65e2b1297592
 // https://hackernoon.com/full-stack-vue-with-graphql-aws-appsync-adc5af474dc9
