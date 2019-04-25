@@ -6,14 +6,15 @@
     <template v-else>
       <ul>
         <li class="users__item" v-for="user in users" :key="user.id">
-          {{ user.id }} , {{ user.name }} , {{ user.email  }} , {{ user.age }} - 
-          <span><button @click="deleteUser(user)">Delete</button></span>
+          {{ user.id }} , {{ user.name }} , {{ user.email  }} , {{ user.age }} 
+          <span><button @click="updateUser(user)">Edit</button></span> 
+           <span><button @click="deleteUser(user)">Delete</button></span>
         </li>
       </ul>
     </template>
 
     <div class="add_new">
-      <h2>Add new user here:</h2>
+      <h2>Add/Update user here:</h2>
       <div class="field">
           <input type="text" v-model="id" placeholder="ID">
       </div>
@@ -95,12 +96,11 @@ export default {
       }).then((data) => {
         // eslint-disable-next-line no-console
         console.log(data)
-        // this.id = '';
-        // this.name = '';
-        // this.email = '';
-        // this.age = '';
       })
     },
+    // updateUser (user) {
+    //   const id = user.id
+    // },
     deleteUser (user) {
       const id = user.id
       const name = user.name
@@ -137,6 +137,7 @@ export default {
 // pass graphql variables
 // https://medium.com/graphql-mastery/graphql-quick-tip-how-to-pass-variables-into-a-mutation-in-graphiql-23ecff4add57
 
+// https://blog.pusher.com/fullstack-graphql-app-prisma-apollo-vue/
 // https://www.graph.cool/
 // https://medium.com/yld-engineering-blog/using-vue-with-apollo-65e2b1297592
 // https://hackernoon.com/full-stack-vue-with-graphql-aws-appsync-adc5af474dc9
