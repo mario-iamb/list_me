@@ -6,7 +6,7 @@
     <template v-else>
       <ul>
         <li class="users__item" v-for="user in users" :key="user.id">
-          {{ user._id }} , {{ user.id }} , {{ user.name }} , {{ user.email  }} , {{ user.age }} 
+          <!--{{ user._id }} ,-->  {{ user.id }} , {{ user.name }} , {{ user.email  }} , {{ user.age }} 
           <span><button @click="updateUser(user)">Edit</button></span> 
            <span><button @click="deleteUser(user)">Delete</button></span>
         </li>
@@ -52,7 +52,6 @@ export default {
     return {
       users: [],
       loading: 0,
-      $_id: '',
       id:'',
       name:'',
       email:'',
@@ -80,20 +79,23 @@ export default {
           age,
         },
         update: (cache, {data: {createUser}}) => {
-          const data = cache.readQuery({query: ALL_USERS_QUERY})
+          const data = cache.readQuery({query: ALL_USERS_QUERY,})
           data.users.push(createUser)
-          cache.writeQuery({query: ALL_USERS_QUERY, data})
+          cache.writeQuery({
+            query: ALL_USERS_QUERY, 
+            data
+          })
         },
-        // optimisticResponse: {
-        //   __typename: 'Mutation',
-        //   createUser: {
-        //     __typename: 'Task',
-        //     id:-1,
-        //     name,
-        //     email,
-        //     age,
-        //   }
-        // }
+        optimisticResponse: {
+          __typename: 'Mutation',
+          createUser: {
+            __typename: 'Task',
+            id:-1,
+            name,
+            email,
+            age,
+          }
+        }
       }).then((data) => {
         // eslint-disable-next-line no-console
         console.log(data)
@@ -101,7 +103,6 @@ export default {
     },
 
     updateUser (user) {
-      // const id = user.id
       // eslint-disable-next-line no-console
       console.log(user._id);
     },
@@ -139,8 +140,10 @@ export default {
     },
   }
 }
-// pass graphql variables
-// https://medium.com/graphql-mastery/graphql-quick-tip-how-to-pass-variables-into-a-mutation-in-graphiql-23ecff4add57
+
+
+// https://www.youtube.com/watch?v=iJULWNCaLrY
+// https://github.com/leonardomso/graphql-mongodb-server/blob/master/graphql/types/User/index.js
 
 // https://blog.pusher.com/fullstack-graphql-app-prisma-apollo-vue/
 // https://www.graph.cool/

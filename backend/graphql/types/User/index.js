@@ -1,17 +1,18 @@
 export default `
-  type User {
-    _id: String!
-    id: String!
-    name: String!
-    email: String!
-    age: Int!
-    posts: [Post!]!
-    comments: [Comment!]!
-  }
 
   type Query {
     user(_id: ID!): User!
     users: [User!]!
+  }
+
+  type User {
+    _id: ID!
+    id: String
+    name: String
+    email: String
+    age: Int!
+    posts: [Post!]
+    comments: [Comment!]
   }
 
   type Mutation {
@@ -21,7 +22,6 @@ export default `
   }
 
   input CreateUserInput {
-    _id: String!
     name: String!
     email: String!
     age: Int!
