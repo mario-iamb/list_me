@@ -1,6 +1,6 @@
 export default `
   type User {
-    _id: ID!
+    _id: String!
     id: String!
     name: String!
     email: String!

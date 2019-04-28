@@ -6,7 +6,7 @@
     <template v-else>
       <ul>
         <li class="users__item" v-for="user in users" :key="user.id">
-          {{ user.id }} , {{ user.name }} , {{ user.email  }} , {{ user.age }} 
+          {{ user._id }} , {{ user.id }} , {{ user.name }} , {{ user.email  }} , {{ user.age }} 
           <span><button @click="updateUser(user)">Edit</button></span> 
            <span><button @click="deleteUser(user)">Delete</button></span>
         </li>
@@ -52,6 +52,7 @@ export default {
     return {
       users: [],
       loading: 0,
+      $_id: '',
       id:'',
       name:'',
       email:'',
@@ -83,24 +84,28 @@ export default {
           data.users.push(createUser)
           cache.writeQuery({query: ALL_USERS_QUERY, data})
         },
-        optimisticResponse: {
-          __typename: 'Mutation',
-          createUser: {
-            __typename: 'Task',
-            id:-1,
-            name,
-            email,
-            age,
-          }
-        }
+        // optimisticResponse: {
+        //   __typename: 'Mutation',
+        //   createUser: {
+        //     __typename: 'Task',
+        //     id:-1,
+        //     name,
+        //     email,
+        //     age,
+        //   }
+        // }
       }).then((data) => {
         // eslint-disable-next-line no-console
         console.log(data)
       })
     },
-    // updateUser (user) {
-    //   const id = user.id
-    // },
+
+    updateUser (user) {
+      // const id = user.id
+      // eslint-disable-next-line no-console
+      console.log(user._id);
+    },
+    
     deleteUser (user) {
       const id = user.id
       const name = user.name
