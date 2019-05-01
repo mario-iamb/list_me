@@ -24,8 +24,13 @@ export default {
     }
   },
   Mutation: {
-    createUser: async (root, { id, name, email, age }) => {
-      const newUser = new User({ id, name, email, age });
+    createUser: async (root, { user }, context, info) => {
+      const newUser = await new User({
+        id: user.id,
+        name: user.name,
+        email: user.email,
+        age: user.age
+      });
 
       return new Promise((resolve, reject) => {
         newUser.save((err, res) => {
@@ -33,6 +38,15 @@ export default {
         });
       });
     },
+    // createUser: async (root, { id, name, email, age }) => {
+    //   const newUser = new User({ id, name, email, age });
+
+    //   return new Promise((resolve, reject) => {
+    //     newUser.save((err, res) => {
+    //       err ? reject(err) : resolve(res);
+    //     });
+    //   });
+    // },
     updateUser: async (root, { _id, user }, context, info) => {
       return new Promise((resolve, reject) => {
         User.findByIdAndUpdate(_id, { $set: { ...user } }, { new: true }).exec(
@@ -42,20 +56,20 @@ export default {
         );
       });
     },
-    deleteUser: (root, args) => {
-      return new Promise((resolve, reject) => {
-        User.findOneAndRemove(args).exec((err, res) => {
-          err ? reject(err) : resolve(res);
-        });
-      });
-    }
-    // deleteUser: async (parent, { _id }, context, info) => {
+    // deleteUser: (root, args) => {
     //   return new Promise((resolve, reject) => {
-    //     User.findByIdAndDelete(_id).exec((err, res) => {
+    //     User.findOneAndRemove(args).exec((err, res) => {
     //       err ? reject(err) : resolve(res);
     //     });
     //   });
     // }
+    deleteUser: async (parent, { _id }, context, info) => {
+      return new Promise((resolve, reject) => {
+        User.findByIdAndDelete(_id).exec((err, res) => {
+          err ? reject(err) : resolve(res);
+        });
+      });
+    }
   },
   User: {
     posts: async ({ _id }, args, context, info) => {

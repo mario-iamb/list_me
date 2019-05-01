@@ -10,18 +10,19 @@ export default `
     id: String
     name: String
     email: String
-    age: Int!
+    age: Int
     posts: [Post!]
     comments: [Comment!]
   }
 
   type Mutation {
-    createUser(id: String!, name: String!, email: String!, age: Int!): User!
+    createUser(user: CreateUserInput): User!
     updateUser(_id: String!, user: UpdateUserInput!): User!
-    deleteUser(id: String!, name: String!, email: String!, age: Int!): User!
+    deleteUser(_id: String!): User!
   }
 
   input CreateUserInput {
+    id: String!
     name: String!
     email: String!
     age: Int!
@@ -32,5 +33,8 @@ export default `
     name: String
     email: String
     age: Int
-  } 
+  }
 `;
+
+// createUser(id: String!, name: String!, email: String!, age: Int!): User!
+// deleteUser(id: String!, name: String!, email: String!, age: Int!): User!

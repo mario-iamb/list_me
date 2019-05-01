@@ -8,7 +8,7 @@
         <li class="users__item" v-for="user in users" :key="user.id">
           <!--{{ user._id }} ,-->  {{ user.id }} , {{ user.name }} , {{ user.email  }} , {{ user.age }} 
           <span><button @click="updateUser(user)">Edit</button></span> 
-           <span><button @click="deleteUser(user)">Delete</button></span>
+          <span><button @click="deleteUser(user)">Delete</button></span>
         </li>
       </ul>
     </template>
@@ -79,12 +79,9 @@ export default {
           age,
         },
         update: (cache, {data: {createUser}}) => {
-          const data = cache.readQuery({query: ALL_USERS_QUERY,})
+          const data = cache.readQuery({query: ALL_USERS_QUERY})
           data.users.push(createUser)
-          cache.writeQuery({
-            query: ALL_USERS_QUERY, 
-            data
-          })
+          cache.writeQuery({ query: ALL_USERS_QUERY, data })
         },
         optimisticResponse: {
           __typename: 'Mutation',
