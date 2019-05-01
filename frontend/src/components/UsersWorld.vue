@@ -5,7 +5,7 @@
       <ul>
         <li class="users__item" v-for="user in users" :key="user._id">
           {{ user.id }} , {{ user.name }} , {{ user.email }} , {{ user.age }}
-          <span><button @click="updateUser(user)">Edit</button></span> 
+          <span><button @click="editUser(user)">Edit</button></span> 
           <span><button @click="deleteUser(user)">Delete</button></span>
         </li>
       </ul>
@@ -31,7 +31,7 @@
 
       <div class="field">
           <button @click="createUser()">Add</button>
-          <button @click="saveUpdates()" disabled="validated">Update</button>
+          <button @click="updateUser()">Update</button>
       </div>
     </div>
 
@@ -41,6 +41,7 @@
 <script>
   import { MY_USERS } from '../graphql/myUsers'
   import { MY_USER_ADD } from '../graphql/myUserAdd'
+  import { MY_USER_UPDATE } from '../graphql/myUserUpdate'
   import { MY_USER_DELETE } from '../graphql/myUserDelete'
 
   export default {
@@ -52,6 +53,13 @@
         name:'',
         email:'',
         age:'',
+        globalVar:''
+        // user: {
+        //   id:'',
+        //   name:'',
+        //   email:'',
+        //   age:''
+        // },
       }
     },
     apollo: {
@@ -92,10 +100,44 @@
           },
         })
       },
-      updateUser (user) {
-        // eslint-disable-next-line no-console
-        console.log(user.name);
-        
+      editUser (user) {
+        this.globalVar = user._id
+        this.id = user.id
+        this.name = user.name
+        this.email = user.email
+        this.age = user.age
+      },
+      updateUser() {
+        const _id = this.globalVar
+        const id = this.id
+        const name = this.name
+        const email = this.email
+        const age = this.age
+
+        this.$apollo.mutate({
+          mutation: MY_USER_UPDATE,
+          variables: {
+            _id,
+            id,
+            name,
+            email,
+            age
+          },
+          // update: store => {
+          //   const data = store.readQuery({query: MY_USERS})
+          //   const userToDelete = data.users.find(i => i._id === user._id);
+          //   data.users.splice(data.users.indexOf(userToDelete), 1);
+          //   store.writeQuery({query: MY_USERS, data});
+          // },
+          
+          // optimisticResponse: {
+          //   __typename: 'Mutation',
+          //   deleteUser: {
+          //     __typename: 'Task',
+          //     _id:-1
+          //   }
+          // },
+        })
       },
       deleteUser (user) {
         this.$apollo.mutate({
@@ -119,6 +161,11 @@
         })
       },
     },
+    // computed: {
+    //   isDisabled: function(){
+    //     return !this.id;
+    //   }
+    // }
   }
 </script>
 

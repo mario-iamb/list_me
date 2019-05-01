@@ -92,7 +92,7 @@ export default {
             email,
             age,
           }
-        }
+        },
       }).then((data) => {
         // eslint-disable-next-line no-console
         console.log(data)
