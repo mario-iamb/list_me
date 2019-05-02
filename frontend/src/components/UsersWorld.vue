@@ -53,7 +53,7 @@
         name:'',
         email:'',
         age:'',
-        globalVar:''
+        globalVar:'',
         // user: {
         //   id:'',
         //   name:'',
@@ -65,6 +65,12 @@
     apollo: {
       users: {
         query: MY_USERS,
+        // result ({ data }) {
+        //   this.users = Object.assign({}, data.users)
+        // }
+        // update: data => {
+        //   return data.users
+        // }
       }
     },
     methods: {
@@ -123,20 +129,23 @@
             email,
             age
           },
-          // update: store => {
-          //   const data = store.readQuery({query: MY_USERS})
-          //   const userToDelete = data.users.find(i => i._id === user._id);
-          //   data.users.splice(data.users.indexOf(userToDelete), 1);
-          //   store.writeQuery({query: MY_USERS, data});
-          // },
-          
-          // optimisticResponse: {
-          //   __typename: 'Mutation',
-          //   deleteUser: {
-          //     __typename: 'Task',
-          //     _id:-1
-          //   }
-          // },
+          update: (cache, {data: {updateUser}}) => {
+            const data = cache.readQuery({query: MY_USERS})
+            const userToUpdate = data.users.find(i => i._id === _id);
+            data.users.splice(data.users.indexOf(userToUpdate), 1, updateUser);
+            cache.writeQuery({ query: MY_USERS, data })
+          },
+          optimisticResponse: {
+            __typename: 'Mutation',
+            updateUser: {
+              __typename: 'Task',
+              _id:-1,
+              id,
+              name,
+              email,
+              age
+            }
+          },
         })
       },
       deleteUser (user) {
@@ -166,8 +175,17 @@
     //     return !this.id;
     //   }
     // }
+
+    // https://vuejs.org/v2/guide/list.html#Caveats
+
+    // https://hackernoon.com/full-stack-vue-with-graphql-aws-appsync-adc5af474dc9
+    // https://css-tricks.com/methods-computed-and-watchers-in-vue-js/
+    // https://medium.com/js-dojo/reactivity-in-vue-js-and-its-pitfalls-de07a29c9407
+    // https://ionicacademy.com/ionic-storage-crud-operations/
+    // https://vuejs.org/v2/guide/reactivity.html
   }
 </script>
+
 
 <style scoped>
 .add_new {

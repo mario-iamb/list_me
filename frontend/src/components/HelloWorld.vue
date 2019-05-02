@@ -1,12 +1,10 @@
 <template>
-  <div>
-    <!-- <h2>Hello from MongoDB</h2> -->
-    
+  <div>    
     <template v-if="loading">Loading</template>
     <template v-else>
       <ul>
         <li class="users__item" v-for="user in users" :key="user.id">
-          <!--{{ user._id }} ,-->  {{ user.id }} , {{ user.name }} , {{ user.email  }} , {{ user.age }} 
+          {{ user.id }} , {{ user.name }} , {{ user.email  }} , {{ user.age }} 
           <span><button @click="updateUser(user)">Edit</button></span> 
           <span><button @click="deleteUser(user)">Delete</button></span>
         </li>
@@ -97,13 +95,7 @@ export default {
         // eslint-disable-next-line no-console
         console.log(data)
       })
-    },
-
-    updateUser (user) {
-      // eslint-disable-next-line no-console
-      console.log(user._id);
-    },
-    
+    },    
     deleteUser (user) {
       const id = user.id
       const name = user.name
