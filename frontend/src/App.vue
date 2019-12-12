@@ -39,13 +39,18 @@ export default {
 }
 
 ul.nav {
-  width: 100%;
+  display: flex;
+  justify-content: center;
   list-style-type: none;
+  margin: 0 auto;
   padding: 10px 0;
-  margin: 0;
+  width: 100%;
 }
 
 ul.nav li {
+  font-family: 'Brown', sans-serif;
+  font-size: 12px;
+  text-transform: uppercase;
   display: inline-block;
   margin: 0 10px;
 }

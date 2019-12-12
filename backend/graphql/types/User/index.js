@@ -1,10 +1,4 @@
 export default `
-
-  type Query {
-    user(_id: ID!): User!
-    users: [User!]!
-  }
-
   type User {
     _id: ID!
     id: String
@@ -13,6 +7,11 @@ export default `
     age: Int
     posts: [Post!]
     comments: [Comment!]
+  }
+
+  type Query {
+    user(_id: ID!): User!
+    users: [User!]!
   }
 
   type Mutation {
