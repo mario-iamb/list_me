@@ -1,6 +1,6 @@
 # list_me
 
-A task management app 
+A task management app
 
 
 
@@ -8,7 +8,7 @@ A task management app
 
 Frontend: Vuejs, Vue-Apollo
 
-Backend: GraphQL, GraphQL-Yoga NodeJS, Apollo, Mongoose
+Backend: GraphQL, GraphQL-Yoga, NodeJS, Apollo, Mongoose
 
 Database: MongoDB
 
