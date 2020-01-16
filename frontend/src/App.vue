@@ -4,7 +4,7 @@
     <!-- <UsersWorld></UsersWorld> -->
 
     <ul class="nav">
-      <li><router-link to="/">Home</router-link></li>
+      <li><router-link to="/">Users</router-link></li>
       <li><router-link to="/sandbox">Sandbox</router-link></li>
     </ul>
 

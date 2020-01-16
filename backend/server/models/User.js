@@ -40,3 +40,9 @@ const UserSchema = new Schema({
 });
 
 export default mongoose.model("User", UserSchema);
+
+// $ref − This field specifies the collection of the referenced document
+// $id − This field specifies the _id field of the referenced document
+// $db − This is an optional field and contains the name of the database in which the referenced document lies
+
+// https://stackoverflow.com/questions/44053868/creating-relationships-between-collections-in-mongodb

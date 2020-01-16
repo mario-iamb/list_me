@@ -2,13 +2,23 @@
   <div>
     <p>UsersWorld component</p>
     <template>
-      <ul>
-        <li class="users__item" v-for="user in users" :key="user._id">
-          {{ user.id }} , {{ user.name }} , {{ user.email }} , {{ user.age }}
-          <span><button @click="editUser(user)">Edit</button></span> 
-          <span><button @click="deleteUser(user)">Delete</button></span>
-        </li>
-      </ul>
+      <div class="container">
+        <div class="row">
+          <div class="col-sm-3 users__item" v-for="user in users" :key="user._id">
+            <div class="users__item-content">
+              <div class="users__item-id">ID: {{ user.id }}</div>
+              <div class="users__item-name">Name: {{ user.name }}</div>
+              <div class="users__item-email">Email: {{ user.email }}</div>
+              <div class="users__item-age">Age: {{ user.age }}</div>
+
+              <div class="users__item-ctas">
+                <button class="btn" @click="editUser(user)">Edit</button>
+                <button class="btn" @click="deleteUser(user)">Delete</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </template>
 
     <div class="add_new">
@@ -30,8 +40,21 @@
       </div>
 
       <div class="field">
-          <button @click="createUser()">Add</button>
-          <button @click="updateUser()">Update</button>
+          <button
+            class="btn"
+            @click="createUser()"
+            :disabled="addDisable"
+          >
+            Add
+          </button>
+
+          <button
+            class="btn"
+            @click="updateUser()"
+            :disabled="updateDisable"
+          >
+            Update
+          </button>
       </div>
     </div>
 
@@ -54,6 +77,8 @@
         email:'',
         age:'',
         globalVar:'',
+        addDisable: false,
+        updateDisable: true,
         // user: {
         //   id:'',
         //   name:'',
@@ -92,6 +117,10 @@
             const data = cache.readQuery({query: MY_USERS})
             data.users.push(createUser)
             cache.writeQuery({ query: MY_USERS, data })
+            this.id = "";
+            this.email = "";
+            this.name = "";
+            this.age = "";
           },
           optimisticResponse: {
             __typename: 'Mutation',
@@ -107,6 +136,8 @@
         })
       },
       editUser (user) {
+        this.addDisable = true,
+        this.updateDisable = false;
         this.globalVar = user._id
         this.id = user.id
         this.name = user.name
@@ -134,6 +165,13 @@
             const userToUpdate = data.users.find(i => i._id === _id);
             data.users.splice(data.users.indexOf(userToUpdate), 1, updateUser);
             cache.writeQuery({ query: MY_USERS, data })
+
+            this.addDisable = false,
+            this.updateDisable = true;
+            this.id = "";
+            this.email = "";
+            this.name = "";
+            this.age = "";
           },
           optimisticResponse: {
             __typename: 'Mutation',
@@ -168,7 +206,7 @@
             }
           },
         })
-      },
+      }
     },
     // computed: {
     //   isDisabled: function(){
@@ -187,41 +225,69 @@
 </script>
 
 
-<style scoped>
-.add_new {
-  width: 300px;
-  margin: 50px auto;
-}
+<style scoped lang="scss">
+  .btn {
+    border-radius: 0;
+    border: 1px solid rgba(0, 0, 0, .1);
+    font-family: 'Brown', sans-serif;
+    font-size: 12px;
+    padding: 2px 8px;
 
-.add_new_form {
-  width: 200px;
-  margin: 0 auto;
-}
+    &:not(last-child) {
+      margin-right: 6px;
+    }
+  }
 
-.field {
-  width: 100%;
-  margin-bottom: 10px;
-}
+  .add_new {
+    width: 300px;
+    margin: 50px auto;
+  }
 
-input {
-  width: 100%;
-}
+  .add_new_form {
+    width: 200px;
+    margin: 0 auto;
+  }
 
-h3 {
-  margin: 40px 0 0;
-}
+  .field {
+    width: 100%;
+    margin-bottom: 10px;
+  }
 
-ul {
-  list-style-type: none;
-  padding: 0;
-}
+  input {
+    width: 100%;
+  }
 
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
+  h3 {
+    margin: 40px 0 0;
+  }
 
-.users__item {
-  display: block;
-}
+  ul {
+    list-style-type: none;
+    padding: 0;
+  }
+
+  li {
+    display: inline-block;
+    margin: 0 10px;
+  }
+
+  .users {
+    &__item {
+      margin: 0 0 24px 0;
+    }
+
+    &__item-content {
+      // border-top: 1px dotted grey;
+      align-items: flex-start;
+      background: #f1faee;
+      display: flex;
+      flex-direction: column;
+      font-size: 14px;
+      padding: 10px;
+    }
+
+    &__item-ctas {
+      margin-top: 12px;
+    }
+  }
 </style>
