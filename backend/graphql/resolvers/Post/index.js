@@ -17,6 +17,7 @@ export default {
         title: u.title,
         body: u.body,
         published: u.published,
+        status: u.status,
         author: u.author,
         comments: u.comments
       }));
@@ -28,6 +29,7 @@ export default {
         title: post.title,
         body: post.body,
         published: post.published,
+        status: post.status,
         author: post.author
       });
 

@@ -4,6 +4,7 @@ export default `
     title: String!
     body: String!
     published: Boolean!
+    status: String!
     author: User!
     comments: [Comment!]!
   }
@@ -32,13 +33,16 @@ export default `
     title: String!
     body: String!
     published: Boolean!
+    status: String!
     author: ID!
   }
-  
+
   input UpdatePostInput {
     title: String
     body: String
     published: Boolean
+    status: String
+    author: ID!
   }
 
   enum MutationType {

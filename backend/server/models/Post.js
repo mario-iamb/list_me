@@ -20,6 +20,9 @@ const PostSchema = new Schema({
     type: Boolean,
     required: true
   },
+  status: {
+    type: String
+  },
   author: {
     type: Schema.Types.ObjectId,
     ref: "User"
