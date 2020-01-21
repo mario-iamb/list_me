@@ -4,8 +4,21 @@ import Comment from "../../../server/models/Comment";
 
 export default {
   Query: {
+    // Get user by id argument
     user: async (parent, { _id }, context, info) => {
       return await User.findOne({ _id }).exec();
+    },
+    // Get first user matching name parameter
+    userName: async (parent, { name }, context, info) => {
+      return await User.findOne({ name }).exec();
+    },
+    // Get all users named Jim
+    userNames: async (parent, args, context, info) => {
+      return await User.find({ name: "Jim" }).exec();
+    },
+    // Get all users by name argument
+    allMatchingUsers: async (parent, {name}, context, info) => {
+      return await User.find({ name: name }).exec();
     },
     users: async (parent, args, context, info) => {
       const users = await User.find({})
@@ -29,7 +42,7 @@ export default {
         id: user.id,
         name: user.name,
         email: user.email,
-        age: user.age
+        age: user.age,
       });
 
       return new Promise((resolve, reject) => {
@@ -80,3 +93,6 @@ export default {
     }
   }
 };
+
+// Implementing Search in GraphQl
+// https://medium.com/open-graphql/implementing-search-in-graphql-11d5f71f179

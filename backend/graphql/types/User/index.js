@@ -12,6 +12,9 @@ export default `
   type Query {
     user(_id: ID!): User!
     users: [User!]!
+    userName(name: String): User!
+    userNames: [User!]!
+    allMatchingUsers(name: String): [User!]
   }
 
   type Mutation {
@@ -26,7 +29,7 @@ export default `
     email: String!
     age: Int!
   }
-  
+
   input UpdateUserInput {
     id: String
     name: String
