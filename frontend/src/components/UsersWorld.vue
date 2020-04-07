@@ -10,6 +10,14 @@
               <div class="users__item-name">Name: {{ user.name }}</div>
               <div class="users__item-email">Email: {{ user.email }}</div>
               <div class="users__item-age">Age: {{ user.age }}</div>
+              <div class="users__item-age">
+                Posts:
+                <div v-for="post in user.posts" :key="post.title">
+                  <div>Title: {{ post.title }}</div>
+                  <div>Body: {{ post.body }}</div>
+                  <div>Is pubished: {{ post.published }}</div>
+                </div>
+              </div>
 
               <div class="users__item-ctas">
                 <button class="btn" @click="editUser(user)">Edit</button>

@@ -5,6 +5,7 @@
 
     <ul class="nav">
       <li><router-link to="/">Users</router-link></li>
+      <li><router-link to="/tasks">tasks</router-link></li>
       <li><router-link to="/sandbox">Sandbox</router-link></li>
     </ul>
 
@@ -15,6 +16,7 @@
 
 <script>
 // import HelloWorld from './components/HelloWorld.vue'
+import tasks from './components/tasks.vue'
 import UsersWorld from './components/UsersWorld.vue'
 import sandbox from './components/sandbox.vue'
 
@@ -23,7 +25,8 @@ export default {
   components: {
     // HelloWorld,
     UsersWorld,
-    sandbox
+    sandbox,
+    tasks
   }
 }
 </script>
