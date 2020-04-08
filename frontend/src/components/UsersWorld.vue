@@ -87,23 +87,11 @@
         globalVar:'',
         addDisable: false,
         updateDisable: true,
-        // user: {
-        //   id:'',
-        //   name:'',
-        //   email:'',
-        //   age:''
-        // },
       }
     },
     apollo: {
       users: {
         query: MY_USERS,
-        // result ({ data }) {
-        //   this.users = Object.assign({}, data.users)
-        // }
-        // update: data => {
-        //   return data.users
-        // }
       }
     },
     methods: {
