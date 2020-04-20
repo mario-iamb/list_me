@@ -58,7 +58,7 @@ export default {
   name: 'sandbox',
   data () {
     return {
-      msg: 'Vuejs Sandbox',
+      msg: 'Vuejs Sandbox TEST',
       my_message: 'Hello second message',
       isActive: true,
       hasError: true,
